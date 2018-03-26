@@ -77,7 +77,6 @@ pkg_build_deps=(core/make core/gcc)
 # your package.
 # pkg_include_dirs=(include)
 
-OA
 # Optional.
 # An array of paths, relative to the final install of the software, where
 # binaries can be found. Used to populate PATH for software that depends on
