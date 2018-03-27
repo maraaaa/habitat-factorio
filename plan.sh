@@ -21,18 +21,14 @@ pkg_shasum="1075945be0be4ab192c424e665f89f4145e669db4a9345c7f6b1d2a0b68f9574"
 # `origin/package/version/release`.
 pkg_deps=(core/glibc)
 pkg_build_deps=()
-
-# Optional.
-# An array of paths, relative to the final install of the software, where
-# binaries can be found. Used to populate PATH for software that depends on
-# your package.
 pkg_bin_dirs=(bin/x64)
 
 # Optional.
 # The command for the Supervisor to execute when starting a service. You can
 # omit this setting if your package is not intended to be run directly by a
 # Supervisor of if your plan contains a run hook in hooks/run.
-pkg_svc_run="factorio --start-server --server-settings $pkg_svc_config_path/server-settings.conf "
+# pkg_svc_run="factorio --start-server --server-settings $pkg_svc_config_path/server-settings.conf "
+pkg_svc_run="factorio --start-server --help"
 # --start-server saves/2018-03-24-0201-making-speed-module-I.zip --executable-path ./bin/x64/factorio --server-settings data/server-settings.json
 
 
@@ -40,18 +36,18 @@ pkg_svc_run="factorio --start-server --server-settings $pkg_svc_config_path/serv
 # An associative array representing configuration data which should be gossiped to peers. The keys
 # in this array represent the name the value will be assigned and the values represent the toml path
 # to read the value.
-pkg_exports=(
-  [host]=srv.address
-  [port]=srv.port
+# pkg_exports=(
+#   [host]=srv.address
+#   [port]=srv.port
 #   [ssl-port]=srv.ssl.port
-)
+# )
 
 
 # Optional.
 # An array of `pkg_exports` keys containing default values for which ports that this package
 # exposes. These values are used as sensible defaults for other tools. For example, when exporting
 # a package to a container format.
-pkg_exposes=(port)
+# pkg_exposes=(port)
 
 
 # Optional.
@@ -163,14 +159,13 @@ do_clean() {
 # not supported, then a message will be printed to stderr with additional
 # information.
 do_unpack() {
+  echo "in do_unpack"
+  echo "pwd: $(pwd)"
   echo "HAB_CACHE_SRC_PATH: ${HAB_CACHE_SRC_PATH}"
   # cd "${HAB_CACHE_SRC_PATH}" || exit
-  # tar vxf ${pkg_filename} -d "${pkg_name}-${pkg_version}"
-  # ls -lah
-  # pwd
-  # echo $(pwd)
+  # mkdir -v ${HAB_CACHE_SRC_PATH}/${pkg_name}-${pkg_version}
+  # tar xf ${pkg_filename} --strip-components=1 -C "${pkg_name}-${pkg_version}"
   do_default_unpack
-  # ls -lah
 }
 
 # There is no default implementation of this callback. At this point in the
@@ -210,11 +205,13 @@ do_check() {
 # specific directories in your package, or installing pre-built binaries into
 # your package.
 do_install() {
+  echo "in do_install()"
   echo "pkg_prefix: ${pkg_prefix}"
   echo "HAB_CACHE_SRC_PATH: ${HAB_CACHE_SRC_PATH}"
   echo "ls ${HAB_CACHE_SRC_PATH}: $(ls ${HAB_CACHE_SRC_PATH})"
   echo "pwd: $(pwd)"
-  install -D ${HAB_CACHE_SRC_PATH}/factorio/bin/x64/factorio "${pkg_prefix}/bin/x64/factorio"
+  cp -vr ${HAB_CACHE_SRC_PATH}/factorio/{bin,config-path.cfg,data} ${pkg_prefix}
+  # install -D ${HAB_CACHE_SRC_PATH}/factorio/bin/x64/factorio "${pkg_prefix}/bin/x64/factorio"
   # do_default_install
 }
 
