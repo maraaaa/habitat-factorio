@@ -1,81 +1,26 @@
-# This file is the heart of your application's habitat.
-# See full docs at https://www.habitat.sh/docs/reference/plan-syntax/
-
-# Required.
-# Sets the name of the package. This will be used in along with `pkg_origin`,
-# and `pkg_version` to define the fully-qualified package name, which determines
-# where the package is installed to on disk, how it is referred to in package
-# metadata, and so on.
 pkg_name=factorio
-
-# Required unless overridden by the `HAB_ORIGIN` environment variable.
-# The origin is used to denote a particular upstream of a package.
 pkg_origin=maraaaa
-
-# Required.
-# Sets the version of the package
 pkg_version="0.1.0"
-
-
-# Optional.
-# The name and email address of the package maintainer.
-pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
-
-
-# Optional.
-# An array of valid software licenses that relate to this package.
-# Please choose a license from http://spdx.org/licenses/
+# pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=("MIT")
 
-
-# Optional.
-# A URL that specifies where to download the source from. Any valid wget url
-# will work. Typically, the relative path for the URL is partially constructed
-# from the pkg_name and pkg_version values; however, this convention is not
-# required.
+# would be cool to be able to override this, but then we need the shasum too
 factorio_version="0.16.35"
-# pkg_source="http://some_source_url/releases/${pkg_name}-${pkg_version}.tar.gz"
 pkg_source="https://www.factorio.com/get-download/${factorio_version}/headless/linux64"
 
-# Optional.
 # The resulting filename for the download, typically constructed from the
 # pkg_name and pkg_version values.
-pkg_filename="factorio.tar.xz"
-
+pkg_filename="${pkg_name}-${pkg_version}_linux_amd64.tar.xz"
 
 # Required if a valid URL is provided for pkg_source or unless do_verify() is overridden.
-# The value for pkg_shasum is a sha-256 sum of the downloaded pkg_source. If you
-# do not have the checksum, you can easily generate it by downloading the source
-# and using the sha256sum or gsha256sum tools. Also, if you do not have
-# do_verify() overridden, and you do not have the correct sha-256 sum, then the
-# expected value will be shown in the build output of your package.
 pkg_shasum="1075945be0be4ab192c424e665f89f4145e669db4a9345c7f6b1d2a0b68f9574"
-
 
 # Optional.
 # An array of package dependencies needed at runtime. You can refer to packages
 # at three levels of specificity: `origin/package`, `origin/package/version`, or
 # `origin/package/version/release`.
 pkg_deps=(core/glibc)
-
-
-# Optional.
-# An array of the package dependencies needed only at build time.
-pkg_build_deps=(core/make core/gcc)
-
-
-# Optional.
-# An array of paths, relative to the final install of the software, where
-# libraries can be found. Used to populate LD_FLAGS and LD_RUN_PATH for
-# software that depends on your package.
-# pkg_lib_dirs=(lib)
-
-
-# Optional.
-# An array of paths, relative to the final install of the software, where
-# headers can be found. Used to populate CFLAGS for software that depends on
-# your package.
-# pkg_include_dirs=(include)
+pkg_build_deps=()
 
 # Optional.
 # An array of paths, relative to the final install of the software, where
@@ -83,37 +28,30 @@ pkg_build_deps=(core/make core/gcc)
 # your package.
 pkg_bin_dirs=(bin/x64)
 
-
-# Optional.
-# An array of paths, relative to the final install of the software, where
-# pkg-config metadata (.pc files) can be found. Used to populate
-# PKG_CONFIG_PATH for software that depends on your package.
-# pkg_pconfig_dirs=(lib/pconfig)
-
-
 # Optional.
 # The command for the Supervisor to execute when starting a service. You can
 # omit this setting if your package is not intended to be run directly by a
 # Supervisor of if your plan contains a run hook in hooks/run.
-# pkg_svc_run="haproxy -f $pkg_svc_config_path/haproxy.conf"
+pkg_svc_run="factorio --start-server --server-settings $pkg_svc_config_path/server-settings.conf "
+# --start-server saves/2018-03-24-0201-making-speed-module-I.zip --executable-path ./bin/x64/factorio --server-settings data/server-settings.json
 
 
 # Optional.
 # An associative array representing configuration data which should be gossiped to peers. The keys
 # in this array represent the name the value will be assigned and the values represent the toml path
 # to read the value.
-# pkg_exports=(
-#   [host]=srv.address
-#   [port]=srv.port
+pkg_exports=(
+  [host]=srv.address
+  [port]=srv.port
 #   [ssl-port]=srv.ssl.port
-# )
+)
 
 
 # Optional.
 # An array of `pkg_exports` keys containing default values for which ports that this package
 # exposes. These values are used as sensible defaults for other tools. For example, when exporting
 # a package to a container format.
-# pkg_exposes=(port ssl-port)
+pkg_exposes=(port)
 
 
 # Optional.
@@ -158,7 +96,7 @@ pkg_svc_user="hab"
 # A short description of the package. It can be a simple string, or you can
 # create a multi-line description using markdown to provide a rich description
 # of your package.
-# pkg_description="Some description."
+pkg_description="Package to run Factorio headless server 'Anywhere'^tm"
 
 
 # Required for core plans, optional otherwise.
@@ -225,7 +163,14 @@ do_clean() {
 # not supported, then a message will be printed to stderr with additional
 # information.
 do_unpack() {
+  echo "HAB_CACHE_SRC_PATH: ${HAB_CACHE_SRC_PATH}"
+  # cd "${HAB_CACHE_SRC_PATH}" || exit
+  # tar vxf ${pkg_filename} -d "${pkg_name}-${pkg_version}"
+  # ls -lah
+  # pwd
+  # echo $(pwd)
   do_default_unpack
+  # ls -lah
 }
 
 # There is no default implementation of this callback. At this point in the
@@ -244,6 +189,7 @@ do_prepare() {
 # if you have additional configuration changes to make or other software to
 # build and install as part of building your package.
 do_build() {
+  return 0
   # do_default_build
 }
 
@@ -264,6 +210,11 @@ do_check() {
 # specific directories in your package, or installing pre-built binaries into
 # your package.
 do_install() {
+  echo "pkg_prefix: ${pkg_prefix}"
+  echo "HAB_CACHE_SRC_PATH: ${HAB_CACHE_SRC_PATH}"
+  echo "ls ${HAB_CACHE_SRC_PATH}: $(ls ${HAB_CACHE_SRC_PATH})"
+  echo "pwd: $(pwd)"
+  install -D ${HAB_CACHE_SRC_PATH}/factorio/bin/x64/factorio "${pkg_prefix}/bin/x64/factorio"
   # do_default_install
 }
 
