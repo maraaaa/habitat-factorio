@@ -80,7 +80,8 @@ pkg_svc_run="factorio --start-server --help"
 
 # Optional.
 # The user to run the service as. The default is hab.
-pkg_svc_user="hab"
+# pkg_svc_user="hab"
+pkg_svc_user="root"
 
 
 # Optional.
