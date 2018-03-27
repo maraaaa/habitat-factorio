@@ -28,7 +28,7 @@ pkg_bin_dirs=(bin/x64)
 # omit this setting if your package is not intended to be run directly by a
 # Supervisor of if your plan contains a run hook in hooks/run.
 # pkg_svc_run="factorio --start-server --server-settings $pkg_svc_config_path/server-settings.conf "
-pkg_svc_run="factorio --start-server --help"
+pkg_svc_run="factorio --create new && factorio --start-server new.zip"
 # --start-server saves/2018-03-24-0201-making-speed-module-I.zip --executable-path ./bin/x64/factorio --server-settings data/server-settings.json
 
 
