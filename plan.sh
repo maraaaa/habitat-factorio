@@ -28,7 +28,9 @@ pkg_bin_dirs=(bin/x64)
 # Supervisor of if your plan contains a run hook in hooks/run.
 # pkg_svc_run="factorio --start-server --server-settings $pkg_svc_config_path/server-settings.conf "
 # pkg_svc_run="factorio --create new && factorio --start-server new.zip"
-pkg_svc_run="factorio --start-server new.zip"
+# pkg_svc_run="factorio --start-server new.zip"
+# pkg_svc_run="cd ${pkg_svc_config_path} && factorio --create && factorio --setart-server new.zip"
+pkg_svc_run="factorio --create && factorio --start-server new.zip"
 # --start-server saves/2018-03-24-0201-making-speed-module-I.zip --executable-path ./bin/x64/factorio --server-settings data/server-settings.json
 
 
@@ -211,9 +213,13 @@ do_install() {
   echo "HAB_CACHE_SRC_PATH: ${HAB_CACHE_SRC_PATH}"
   echo "ls ${HAB_CACHE_SRC_PATH}: $(ls ${HAB_CACHE_SRC_PATH})"
   echo "pwd: $(pwd)"
-  cp -vr ${HAB_CACHE_SRC_PATH}/factorio/{bin,config-path.cfg,data} ${pkg_prefix}
+  cp -r ${HAB_CACHE_SRC_PATH}/factorio/{bin,config-path.cfg,data} ${pkg_prefix}
   cd ${pkg_prefix}
-  bin/x64/factorio --create
+  echo "pwd: $(pwd)"
+  echo "ls: $(ls)"
+  echo "ls bin/ $(ls bin/)"
+  echo "ls bin/x64 $(ls bin/x64)"
+  # bin/x64/factorio --create
   # install -D ${HAB_CACHE_SRC_PATH}/factorio/bin/x64/factorio "${pkg_prefix}/bin/x64/factorio"
   # do_default_install
 }
