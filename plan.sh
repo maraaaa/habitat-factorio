@@ -212,7 +212,7 @@ do_install() {
   echo "ls ${HAB_CACHE_SRC_PATH}: $(ls ${HAB_CACHE_SRC_PATH})"
   echo "pwd: $(pwd)"
   cp -vr ${HAB_CACHE_SRC_PATH}/factorio/{bin,config-path.cfg,data} ${pkg_prefix}
-  cd pkg_prefix
+  cd ${pkg_prefix}
   bin/x64/factorio --create
   # install -D ${HAB_CACHE_SRC_PATH}/factorio/bin/x64/factorio "${pkg_prefix}/bin/x64/factorio"
   # do_default_install
