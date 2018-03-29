@@ -1,12 +1,11 @@
 pkg_name=factorio
 pkg_origin=maraaaa
-pkg_version="0.1.0"
-# pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
+pkg_version="0.16.35"
 pkg_license=("MIT")
 
 # would be cool to be able to override this, but then we need the shasum too
 factorio_version="0.16.35"
-pkg_source="https://www.factorio.com/get-download/${factorio_version}/headless/linux64"
+pkg_source="https://www.factorio.com/get-download/${pkg_version}/headless/linux64"
 
 # The resulting filename for the download, typically constructed from the
 # pkg_name and pkg_version values.
@@ -28,7 +27,8 @@ pkg_bin_dirs=(bin/x64)
 # omit this setting if your package is not intended to be run directly by a
 # Supervisor of if your plan contains a run hook in hooks/run.
 # pkg_svc_run="factorio --start-server --server-settings $pkg_svc_config_path/server-settings.conf "
-pkg_svc_run="factorio --create new && factorio --start-server new.zip"
+# pkg_svc_run="factorio --create new && factorio --start-server new.zip"
+pkg_svc_run="factorio --start-server new.zip"
 # --start-server saves/2018-03-24-0201-making-speed-module-I.zip --executable-path ./bin/x64/factorio --server-settings data/server-settings.json
 
 
@@ -212,6 +212,8 @@ do_install() {
   echo "ls ${HAB_CACHE_SRC_PATH}: $(ls ${HAB_CACHE_SRC_PATH})"
   echo "pwd: $(pwd)"
   cp -vr ${HAB_CACHE_SRC_PATH}/factorio/{bin,config-path.cfg,data} ${pkg_prefix}
+  cd pkg_prefix
+  bin/x64/factorio --create
   # install -D ${HAB_CACHE_SRC_PATH}/factorio/bin/x64/factorio "${pkg_prefix}/bin/x64/factorio"
   # do_default_install
 }
