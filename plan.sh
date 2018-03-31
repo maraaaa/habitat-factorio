@@ -30,7 +30,7 @@ pkg_bin_dirs=(bin/x64)
 # pkg_svc_run="factorio --create new && factorio --start-server new.zip"
 # pkg_svc_run="factorio --start-server new.zip"
 # pkg_svc_run="cd ${pkg_svc_config_path} && factorio --create && factorio --start-server new.zip"
-pkg_svc_run="factorio --create && factorio --start-server new.zip"
+pkg_svc_run="factorio --create new && factorio --start-server new.zip"
 
 
 # Optional.
@@ -214,6 +214,7 @@ do_install() {
   echo "pwd: $(pwd)"
   cp -r ${HAB_CACHE_SRC_PATH}/factorio/{bin,data} ${pkg_prefix}
   echo "config-path=/hab/svc/factorio/config" | tee ${pkg_prefix}/config-path.cfg
+  echo "use-system-read-write-data-directories=false" | tee -a ${pkg_prefix}/config-path.cfg
   # cd ${pkg_prefix}
   # echo "pwd: $(pwd)"
   # echo "ls: $(ls)"
