@@ -31,7 +31,7 @@ pkg_bin_dirs=(bin/x64)
 # pkg_svc_run="factorio --start-server new.zip"
 # pkg_svc_run="cd ${pkg_svc_config_path} && factorio --create && factorio --start-server new.zip"
 # pkg_svc_run="factorio --start-server new.zip --mod-directory ${pkg_svc_config_path}"
-pkg_svc_run="factorio --start-server new.zip"
+pkg_svc_run="factorio --start-server start.zip"
 
 
 # Optional.
@@ -79,15 +79,8 @@ pkg_svc_run="factorio --start-server new.zip"
 # Then these can be used with the fix_interpreter function.
 # pkg_interpreters=(bin/bash)
 
-
 # Optional.
-# The user to run the service as. The default is hab.
 # pkg_svc_user="hab"
-pkg_svc_user="root"
-
-
-# Optional.
-# The group to run the service as. The default is hab.
 # pkg_svc_group="$pkg_svc_user"
 
 
