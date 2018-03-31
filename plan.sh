@@ -30,7 +30,8 @@ pkg_bin_dirs=(bin/x64)
 # pkg_svc_run="factorio --create new && factorio --start-server new.zip"
 # pkg_svc_run="factorio --start-server new.zip"
 # pkg_svc_run="cd ${pkg_svc_config_path} && factorio --create && factorio --start-server new.zip"
-pkg_svc_run="factorio --create new && factorio --start-server new.zip"
+# pkg_svc_run="factorio --start-server new.zip --mod-directory ${pkg_svc_config_path}"
+pkg_svc_run="factorio --start-server new.zip"
 
 
 # Optional.
