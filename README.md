@@ -19,7 +19,7 @@ Next, to figure out how that config.ini file is generated...  Then to provide a 
 ```
 sudo groupadd hab
 sudo useradd -g hab hab
-curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo bash
+curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo TMPDIR=/root bash # we assume there's noexec on /tmp and /var/tmp
 sudo hab pkg install maraaaa/factorio
 sudo hab pkg exec maraaaa/factorio factorio --create /hab/svc/factorio/start # Unfortunately, this is hardcoded at the moment
 ```
