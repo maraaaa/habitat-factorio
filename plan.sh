@@ -12,7 +12,7 @@ pkg_source="https://www.factorio.com/get-download/${pkg_version}/headless/linux6
 pkg_filename="${pkg_name}-${pkg_version}_linux_amd64.tar.xz"
 
 # Required if a valid URL is provided for pkg_source or unless do_verify() is overridden.
-pkg_shasum="898b0c00f0730d8a810050c1bb04da6b56fa16d2175084f63d6259e5014ec787"
+pkg_shasum="047ff44204876c54835cfc76dedca6809dd6aee48a16efbd5eb305e294415258"
 
 # Optional.
 # An array of package dependencies needed at runtime. You can refer to packages
