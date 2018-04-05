@@ -21,12 +21,12 @@ sudo groupadd hab
 sudo useradd -g hab hab
 curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo TMPDIR=/root bash # we assume there's noexec on /tmp and /var/tmp
 sudo hab pkg install maraaaa/factorio
-sudo hab pkg exec maraaaa/factorio factorio --create /hab/svc/factorio/start # Unfortunately, this is hardcoded at the moment
+sudo -u hab hab pkg exec maraaaa/factorio factorio --create /hab/svc/factorio/data/start # Unfortunately, this is hardcoded at the moment
 ```
 
 ### Using own maps:
 
-You can copy your own map to `/hab/svc/factorio/start.zip` (the name is important!) after running the above create command.
+You can copy your own map to `/hab/svc/factorio/data/start.zip` (the name is important!) after running the above create command.
 
 ### Starting Service
 
