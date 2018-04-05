@@ -1,6 +1,6 @@
 pkg_name=factorio
 pkg_origin=maraaaa
-pkg_version="0.16.35"
+pkg_version="0.16.36"
 pkg_license=("MIT")
 
 # would be cool to be able to override this, but then we need the shasum too
