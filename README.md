@@ -70,3 +70,16 @@ systemctl start habitat
 ```
 
 (this assumes you have run `sudo hab svc start maraaa/factorio` previously.  If you have not, do so now)
+
+### Uninstalling
+
+```
+sudo rm -rf /hab/pkgs/maraaaa/factorio/ # to remove the package binaries
+sudo rm -rf /hab/svc/factorio/ 		# to remove any settings/saves/etc
+```
+
+If you want to retain settings, you should run only the first command.
+
+### Upgrading
+
+`
