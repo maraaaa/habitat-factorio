@@ -71,6 +71,31 @@ systemctl start habitat
 
 (this assumes you have run `sudo hab svc start maraaa/factorio` previously.  If you have not, do so now)
 
+### Configuring
+
+All options in config.ini can be set in the "standard" habitat manner, detailed instructions [can be found on the Habitat website](https://www.habitat.sh/docs/using-habitat/#config-updates).  Refer to the default.toml or config.ini for full list of option names.
+
+Though untested, my interpretation of the docs means that:
+
+```
+$ HAB_FACTORIO='{"autosave-slots"="10"}' hab start maraaaa/factorio
+```
+
+or 
+
+create a user.toml file at `/hab/user/factorio/config/user.toml` with any desired options, e.g.:
+
+```
+sudo mkdir -p /hab/user/factorio/config
+cat <<EOF | sudo tee /hab/user/factorio/config/user.toml
+autosave-slots="10"
+autosave-compression-level="maximum"
+EOF
+
+```
+
+(these examples were chosen at random)
+
 ### Uninstalling
 
 ```
@@ -82,4 +107,15 @@ If you want to retain settings, you should run only the first command.
 
 ### Upgrading
 
-`
+
+### Templating
+
+The following were used to convert the config.ini to default.toml and templatized config.ini
+
+```
+perl -pi -e 's/^\n$//' config/config.ini.org
+perl -p -e 's/(?:; )?([a-z-]+)=([a-z0-9.-]+)?/\1="\2"/; s/;\s?\n//; s/;/#/; s/\[/# [/' config/config.ini  >> default.toml
+perl -n -e 'next if m/; (Options|Alpha)/; s/(?:; )?([a-z-]+)=([a-z0-9.-]+)?/\1={{cfg\.\1}}/; print' config/config.ini.org > config/config.ini
+```
+
+
