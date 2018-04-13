@@ -1,3 +1,7 @@
 # Use this file to templatize your application's native configuration files.
 # See the docs at https://www.habitat.sh/docs/create-packages-configure/.
-# You can safely delete this file if you don't need it.
+
+read_data_path = "__PATH__executable__/../../data"
+write_data_path = "/hab/svc/factorio/data"
+
+
