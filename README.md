@@ -113,9 +113,7 @@ If you want to retain settings, you should run only the first command.
 The following were used to convert the config.ini to default.toml and templatized config.ini
 
 ```
-perl -pi -e 's/^\n$//' config/config.ini.org
-perl -p -e 's/(?:; )?([a-z-]+)=([a-z0-9.-]+)?/\1="\2"/; s/;\s?\n//; s/;/#/; s/\[/# [/' config/config.ini  >> default.toml
-perl -n -e 'next if m/; (Options|Alpha)/; s/(?:; )?([a-z-]+)=([a-z0-9.-]+)?/\1={{cfg\.\1}}/; print' config/config.ini.org > config/config.ini
+perl -pi -e 's/^\n$//' orig/config.ini
+perl -p -e 's/(?:; )?([a-z-]+)=([a-z0-9.-]+)?/\1="\2"/; s/;\s?\n//; s/;/#/; s/\[/# [/' orig/config.ini  >> default.toml
+perl -n -e 'next if m/; (Options|Alpha)/; s/(?:; )?([a-z-]+)=([a-z0-9.-]+)?/\1={{cfg\.\1}}/; print' orig/config.ini > config/config.ini
 ```
-
-
