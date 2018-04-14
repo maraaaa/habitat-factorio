@@ -19,7 +19,7 @@ pkg_build_deps=(core/tar)
 pkg_bin_dirs=(bin/x64)
 
 # TODO: Need to update this so that it takes custom server config?
-pkg_svc_run="factorio --start-server data/start.zip"
+pkg_svc_run="factorio --start-server data/start.zip --server-settings config/server-settings.json"
 
 # TODO: Would like to update this
 # Optional.

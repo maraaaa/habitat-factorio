@@ -96,6 +96,18 @@ EOF
 
 (these examples were chosen at random)
 
+If you would like to register your server with the Factorio multiplay server list, create a server.toml and include it (replace username and token with your own!!!):
+
+```
+cat <<EOF | tee example.toml
+[server-settings]
+description = "Habitat Demo Server"
+name = "Habitat Demo Server"
+tags = ["game", "tags", "habitat"]
+username = "maraaaa"
+token = "a real token goes here see service-token in factorio/player-data.json after logging in"
+EOF
+
 ### Uninstalling
 
 ```
@@ -116,4 +128,12 @@ The following were used to convert the config.ini to default.toml and templatize
 perl -pi -e 's/^\n$//' orig/config.ini
 perl -p -e 's/(?:; )?([a-z-]+)=([a-z0-9.-]+)?/\1="\2"/; s/;\s?\n//; s/;/#/; s/\[/# [/' orig/config.ini  >> default.toml
 perl -n -e 'next if m/; (Options|Alpha)/; s/(?:; )?([a-z-]+)=([a-z0-9.-]+)?/\1={{cfg\.\1}}/; print' orig/config.ini > config/config.ini
+```
+
+The following was used to convert the server-settings and map-settings to toml (toml-rb seems to want to alphabetize the options...)
+TOML doesn't accept sci-notation, that was cleaned up manually.
+
+```
+ruby orig/json_to_toml.rb orig/map-settings.example.json | tee -a default.toml 
+ruby orig/json_to_toml.rb orig/server-settings.example.json | tee -a default.toml 
 ```
