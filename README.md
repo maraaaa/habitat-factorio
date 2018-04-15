@@ -1,5 +1,7 @@
 # Habitat package: factorio
 
+[Builder](https://bldr.habitat.sh/#/pkgs/maraaaa/factorio/latest)
+
 ## Description
 
 This was largely inspired by issues arising from running factorio on [Older Versions of CentOS](https://forums.factorio.com/viewtopic.php?f=49&t=54619), which [required compiling glibc](https://forums.factorio.com/viewtopic.php?p=324493&sid=0d99fb88ebf1d28ea6f7fe33cfc1b5b9#p324493) and running it with a mess of options:
@@ -107,6 +109,13 @@ tags = ["game", "tags", "habitat"]
 username = "maraaaa"
 token = "a real token goes here see service-token in factorio/player-data.json after logging in"
 EOF
+```
+
+Then run the server with your config file:
+
+```
+sudo HAB_FACTORIO="$(cat server.toml)" hab start maraaaa/factorio
+```
 
 ### Uninstalling
 
