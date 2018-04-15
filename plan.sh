@@ -18,14 +18,13 @@ pkg_deps=(core/glibc)
 pkg_build_deps=(core/tar)
 pkg_bin_dirs=(bin/x64)
 
-# TODO: Need to update this so that it takes custom server config?
+# run our service
 pkg_svc_run="factorio --start-server data/start.zip --server-settings config/server-settings.json"
 
-# TODO: Would like to update this
-# Optional.
-# An array of `pkg_exports` keys containing default values for which ports that this package
-# exposes. These values are used as sensible defaults for other tools. For example, when exporting
-# a package to a container format.
+# This never works... always
+# TODO: make exports work.
+# pkg_exports=([factorio_port]=port)
+# pkg_exports=([port]=port)
 # pkg_exposes=(port)
 
 pkg_svc_user="hab"
