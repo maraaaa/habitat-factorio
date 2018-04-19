@@ -26,6 +26,7 @@ pkg_svc_run="factorio --start-server data/start.zip --server-settings config/ser
 # pkg_exports=([factorio_port]=port)
 # pkg_exports=([port]=port)
 # pkg_exposes=(port)
+pkg_exports=(port)
 
 pkg_svc_user="hab"
 pkg_svc_group="$pkg_svc_user"
