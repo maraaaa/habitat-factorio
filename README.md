@@ -12,8 +12,6 @@ This was largely inspired by issues arising from running factorio on [Older Vers
 
 Enter Habitat!  Habitat allows us to bundle the application dependencies with the application and then download, install, and run them as a single uint.  Selfishly, this project was chosen as a way to learn Habitat and a way to mess around with Factorio at work (this is just as "relevant" to work as the demo node app...).  As this is a learning tool, this project should largely be considered a work in progress!
 
-Next, to figure out how that config.ini file is generated...  Then to provide a server-config.json!
-
 ## Usage
 
 ### Setup:
@@ -23,18 +21,15 @@ sudo groupadd hab
 sudo useradd -g hab hab
 curl https://raw.githubusercontent.com/habitat-sh/habitat/master/components/hab/install.sh | sudo TMPDIR=/root bash # we assume there's noexec on /tmp and /var/tmp
 sudo hab pkg install maraaaa/factorio
-sudo hab pkg exec maraaaa/factorio factorio --create /hab/svc/factorio/data/start # Unfortunately, this is hardcoded at the moment
 ```
 
 ### Using own maps:
 
-You can copy your own map to `/hab/svc/factorio/data/start.zip` (the name is important!) after running the above create command.
+You can copy your own map to `/hab/svc/factorio/data/default.zip`
 
 ### Starting Service
 
 #### Using Habitat supervisor
-
-If you want to run factorio in the forground (for instance, for debugging purposes) omit the `hab sup run` step.
 
 ```
 sudo hab sup run
@@ -54,6 +49,7 @@ This will cause factorio to run as if you had invoked `bin/x64/factorio` directl
 Create a startup file.  For instance, for systemd, create `/etc/systemd/system/factorio.service`:
 
 ```
+cat << EOF | tee /etc/systemd/system/hab.service
 [Unit]
 Description=The Habitat Supervisor
 
@@ -62,22 +58,21 @@ ExecStart=/bin/hab sup run
 
 [Install]
 WantedBy=default.target
+EOF
 ```
 
 The start and enable the service:
 
 ```
-systemctl enable habitat
-systemctl start habitat
+systemctl enable hab
+systemctl start hab
 ```
-
-(this assumes you have run `sudo hab svc start maraaa/factorio` previously.  If you have not, do so now)
 
 ### Configuring
 
 All options in config.ini can be set in the "standard" habitat manner, detailed instructions [can be found on the Habitat website](https://www.habitat.sh/docs/using-habitat/#config-updates).  Refer to the default.toml or config.ini for full list of option names.
 
-Though untested, my interpretation of the docs means that:
+e.g.:
 
 ```
 $ HAB_FACTORIO='{"autosave-slots"="10"}' hab start maraaaa/factorio
@@ -92,6 +87,8 @@ sudo mkdir -p /hab/user/factorio/config
 cat <<EOF | sudo tee /hab/user/factorio/config/user.toml
 autosave-slots="10"
 autosave-compression-level="maximum"
+[map]
+name = default
 EOF
 
 ```
@@ -146,3 +143,13 @@ TOML doesn't accept sci-notation, that was cleaned up manually.
 ruby orig/json_to_toml.rb orig/map-settings.example.json | tee -a default.toml 
 ruby orig/json_to_toml.rb orig/server-settings.example.json | tee -a default.toml 
 ```
+
+# Docker
+
+A docker container is provided at `maraaaa/factorio`
+
+this can be run with:
+
+```
+docker pull maraaaa/factorio
+docker run -p34197:34197 maraaaa/factorio 

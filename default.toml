@@ -330,6 +330,8 @@ video-memory-usage="high"
 # Options: false, true, auto
 texture-compression="false"
 
+[map]
+name = "default"
 
 ##################################################
 #!!!!!!!!!!! map-settings start here !!!!!!!!!!!!!

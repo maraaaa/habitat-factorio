@@ -1,0 +1,20 @@
+# overrides the name of the file at /hab/svc/factorio/data/foobar.zip
+[map]
+name = "foobar"
+
+# Map generation settings.
+# Only affects initial map generation
+[map-settings]
+max_failed_behavior_count = 3 
+[map-settings.difficulty_settings]
+recipe_difficulty = 0 
+technology_difficulty = 0 
+technology_price_multiplier = 1
+
+# Server Runtime Settings
+[server-settings]
+description = "Habitat Demo Server"
+name = "Habitat Demo Server"
+tags = ["game", "tags", "habitat"]
+username = "maraaaa"
+token = "a real token goes here see service-token in factorio/player-data.json after logging in"

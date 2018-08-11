@@ -1,0 +1,12 @@
+#!{{pkgPathFor "core/bash"}}/bin/bash
+
+set -xe
+
+# generate our map
+if [ ! -f {{pkg.svc_data_path}}/{{cfg.map.name}}.zip ]; then
+   factorio --create {{pkg.svc_data_path}}/{{cfg.map.name}}\
+     --map-settings {{pkg.svc_config_path}}/map-settings.json
+fi
+
+exec factorio --start-server {{pkg.svc_data_path}}/{{cfg.map.name}}.zip\
+  --server-settings {{pkg.svc_config_path}}/server-settings.json

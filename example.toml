@@ -1,6 +1,0 @@
-[server-settings]
-description = "Habitat Demo Server"
-name = "Habitat Demo Server"
-tags = ["game", "tags", "habitat"]
-username = "maraaaa"
-token = "a real token goes here see service-token in factorio/player-data.json after logging in"
